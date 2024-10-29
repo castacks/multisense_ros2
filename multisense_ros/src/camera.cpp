@@ -1855,7 +1855,7 @@ void Camera::timerCallback()
         else
         {
             enable |= numSubscribers(left_node_, COLOR_TOPIC) > 0 ?  Source_Luma_Left | Source_Chroma_Left : enable;
-            enable |= numSubscribers(left_node_, COLOR_TOPIC) > 0 ?  Source_Luma_Left | Source_Chroma_Left : enable;
+            enable |= numSubscribers(left_node_, RECT_COLOR_TOPIC) > 0 ?  Source_Luma_Left | Source_Chroma_Left : enable;
         }
 
         const auto point_cloud_color_topics = has_aux_camera_ ? Source_Luma_Rectified_Aux | Source_Chroma_Rectified_Aux :
