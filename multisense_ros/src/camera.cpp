@@ -379,26 +379,26 @@ Camera::Camera(const std::string& node_name,
     device_info_pub_ = calibration_node_->create_publisher<multisense_msgs::msg::DeviceInfo>(DEVICE_INFO_TOPIC, latching_qos);
     raw_cam_cal_pub_ = calibration_node_->create_publisher<multisense_msgs::msg::RawCamCal>(RAW_CAM_CAL_TOPIC, latching_qos);
     raw_cam_config_pub_ = calibration_node_->create_publisher<multisense_msgs::msg::RawCamConfig>(RAW_CAM_CONFIG_TOPIC, latching_qos);
-    histogram_pub_ = create_publisher<multisense_msgs::msg::Histogram>(HISTOGRAM_TOPIC, rclcpp::SensorDataQoS());
+    histogram_pub_ = create_publisher<multisense_msgs::msg::Histogram>(HISTOGRAM_TOPIC, rclcpp::QoS(10));
 
     //
     // Image publishers
 
-    left_mono_cam_pub_  = left_node_->create_publisher<sensor_msgs::msg::Image>(MONO_TOPIC, rclcpp::SensorDataQoS());
-    right_mono_cam_pub_ = right_node_->create_publisher<sensor_msgs::msg::Image>(MONO_TOPIC, rclcpp::SensorDataQoS());
-    left_rect_cam_pub_  = left_node_->create_publisher<sensor_msgs::msg::Image>(RECT_TOPIC, rclcpp::SensorDataQoS());
-    right_rect_cam_pub_ = right_node_->create_publisher<sensor_msgs::msg::Image>(RECT_TOPIC, rclcpp::SensorDataQoS());
-    depth_cam_pub_      = left_node_->create_publisher<sensor_msgs::msg::Image>(DEPTH_TOPIC, rclcpp::SensorDataQoS());
-    ni_depth_cam_pub_   = left_node_->create_publisher<sensor_msgs::msg::Image>(OPENNI_DEPTH_TOPIC, rclcpp::SensorDataQoS());
+    left_mono_cam_pub_  = left_node_->create_publisher<sensor_msgs::msg::Image>(MONO_TOPIC, rclcpp::QoS(10));
+    right_mono_cam_pub_ = right_node_->create_publisher<sensor_msgs::msg::Image>(MONO_TOPIC, rclcpp::QoS(10));
+    left_rect_cam_pub_  = left_node_->create_publisher<sensor_msgs::msg::Image>(RECT_TOPIC, rclcpp::QoS(10));
+    right_rect_cam_pub_ = right_node_->create_publisher<sensor_msgs::msg::Image>(RECT_TOPIC, rclcpp::QoS(10));
+    depth_cam_pub_      = left_node_->create_publisher<sensor_msgs::msg::Image>(DEPTH_TOPIC, rclcpp::QoS(10));
+    ni_depth_cam_pub_   = left_node_->create_publisher<sensor_msgs::msg::Image>(OPENNI_DEPTH_TOPIC, rclcpp::QoS(10));
 
     if (supports_color_)
     {
         if (has_aux_camera_)
         {
-            aux_mono_cam_pub_ = aux_node_->create_publisher<sensor_msgs::msg::Image>(MONO_TOPIC, rclcpp::SensorDataQoS());
-            aux_rgb_cam_pub_ = aux_node_->create_publisher<sensor_msgs::msg::Image>(COLOR_TOPIC, rclcpp::SensorDataQoS());
-            aux_rect_cam_pub_ = aux_node_->create_publisher<sensor_msgs::msg::Image>(RECT_TOPIC, rclcpp::SensorDataQoS());
-            aux_rgb_rect_cam_pub_ = aux_node_->create_publisher<sensor_msgs::msg::Image>(RECT_COLOR_TOPIC, rclcpp::SensorDataQoS());
+            aux_mono_cam_pub_ = aux_node_->create_publisher<sensor_msgs::msg::Image>(MONO_TOPIC, rclcpp::QoS(10));
+            aux_rgb_cam_pub_ = aux_node_->create_publisher<sensor_msgs::msg::Image>(COLOR_TOPIC, rclcpp::QoS(10));
+            aux_rect_cam_pub_ = aux_node_->create_publisher<sensor_msgs::msg::Image>(RECT_TOPIC, rclcpp::QoS(10));
+            aux_rgb_rect_cam_pub_ = aux_node_->create_publisher<sensor_msgs::msg::Image>(RECT_COLOR_TOPIC, rclcpp::QoS(10));
 
             aux_mono_cam_info_pub_ = aux_node_->create_publisher<sensor_msgs::msg::CameraInfo>(MONO_CAMERA_INFO_TOPIC, latching_qos);
             aux_rgb_cam_info_pub_ = aux_node_->create_publisher<sensor_msgs::msg::CameraInfo>(COLOR_CAMERA_INFO_TOPIC, latching_qos);
@@ -407,28 +407,28 @@ Camera::Camera(const std::string& node_name,
         }
         else
         {
-            left_rgb_cam_pub_   = left_node_->create_publisher<sensor_msgs::msg::Image>(COLOR_TOPIC, rclcpp::SensorDataQoS());
-            left_rgb_rect_cam_pub_ = left_node_->create_publisher<sensor_msgs::msg::Image>(RECT_COLOR_TOPIC, rclcpp::SensorDataQoS());
+            left_rgb_cam_pub_   = left_node_->create_publisher<sensor_msgs::msg::Image>(COLOR_TOPIC, rclcpp::QoS(10));
+            left_rgb_rect_cam_pub_ = left_node_->create_publisher<sensor_msgs::msg::Image>(RECT_COLOR_TOPIC, rclcpp::QoS(10));
 
             left_rgb_cam_info_pub_  = left_node_->create_publisher<sensor_msgs::msg::CameraInfo>(COLOR_CAMERA_INFO_TOPIC, latching_qos);
             left_rgb_rect_cam_info_pub_  = left_node_->create_publisher<sensor_msgs::msg::CameraInfo>(RECT_COLOR_CAMERA_INFO_TOPIC, latching_qos);
         }
 
-        color_point_cloud_pub_ = create_publisher<sensor_msgs::msg::PointCloud2>(COLOR_POINTCLOUD_TOPIC, rclcpp::SensorDataQoS());
-        color_organized_point_cloud_pub_ = create_publisher<sensor_msgs::msg::PointCloud2>(COLOR_ORGANIZED_POINTCLOUD_TOPIC, rclcpp::SensorDataQoS());
+        color_point_cloud_pub_ = create_publisher<sensor_msgs::msg::PointCloud2>(COLOR_POINTCLOUD_TOPIC, rclcpp::QoS(10));
+        color_organized_point_cloud_pub_ = create_publisher<sensor_msgs::msg::PointCloud2>(COLOR_ORGANIZED_POINTCLOUD_TOPIC, rclcpp::QoS(10));
     }
 
-    luma_point_cloud_pub_ = create_publisher<sensor_msgs::msg::PointCloud2>(POINTCLOUD_TOPIC, rclcpp::SensorDataQoS());
-    luma_organized_point_cloud_pub_ = create_publisher<sensor_msgs::msg::PointCloud2>(ORGANIZED_POINTCLOUD_TOPIC, rclcpp::SensorDataQoS());
-    raw_cam_data_pub_   = calibration_node_->create_publisher<multisense_msgs::msg::RawCamData>(RAW_CAM_DATA_TOPIC, rclcpp::SensorDataQoS());
+    luma_point_cloud_pub_ = create_publisher<sensor_msgs::msg::PointCloud2>(POINTCLOUD_TOPIC, rclcpp::QoS(10));
+    luma_organized_point_cloud_pub_ = create_publisher<sensor_msgs::msg::PointCloud2>(ORGANIZED_POINTCLOUD_TOPIC, rclcpp::QoS(10));
+    raw_cam_data_pub_   = calibration_node_->create_publisher<multisense_msgs::msg::RawCamData>(RAW_CAM_DATA_TOPIC, rclcpp::QoS(10));
 
-    left_disparity_pub_ = left_node_->create_publisher<sensor_msgs::msg::Image>(DISPARITY_TOPIC, rclcpp::SensorDataQoS());
+    left_disparity_pub_ = left_node_->create_publisher<sensor_msgs::msg::Image>(DISPARITY_TOPIC, rclcpp::QoS(10));
 
-    left_stereo_disparity_pub_ = left_node_->create_publisher<stereo_msgs::msg::DisparityImage>(DISPARITY_IMAGE_TOPIC, rclcpp::SensorDataQoS());
+    left_stereo_disparity_pub_ = left_node_->create_publisher<stereo_msgs::msg::DisparityImage>(DISPARITY_IMAGE_TOPIC, rclcpp::QoS(10));
 
-    right_disparity_pub_ = right_node_->create_publisher<sensor_msgs::msg::Image>(DISPARITY_TOPIC, rclcpp::SensorDataQoS());
-    right_stereo_disparity_pub_ = right_node_->create_publisher<stereo_msgs::msg::DisparityImage>(DISPARITY_IMAGE_TOPIC, rclcpp::SensorDataQoS());
-    left_disparity_cost_pub_ = left_node_->create_publisher<sensor_msgs::msg::Image>(COST_TOPIC, rclcpp::SensorDataQoS());
+    right_disparity_pub_ = right_node_->create_publisher<sensor_msgs::msg::Image>(DISPARITY_TOPIC, rclcpp::QoS(10));
+    right_stereo_disparity_pub_ = right_node_->create_publisher<stereo_msgs::msg::DisparityImage>(DISPARITY_IMAGE_TOPIC, rclcpp::QoS(10));
+    left_disparity_cost_pub_ = left_node_->create_publisher<sensor_msgs::msg::Image>(COST_TOPIC, rclcpp::QoS(10));
 
     //
     // Camera info topic publishers
@@ -441,6 +441,8 @@ Camera::Camera(const std::string& node_name,
     depth_cam_info_pub_ = left_node_->create_publisher<sensor_msgs::msg::CameraInfo>(DEPTH_CAMERA_INFO_TOPIC, latching_qos);
     right_disp_cam_info_pub_ = right_node_->create_publisher<sensor_msgs::msg::CameraInfo>(DISPARITY_CAMERA_INFO_TOPIC, latching_qos);
     left_cost_cam_info_pub_ = left_node_->create_publisher<sensor_msgs::msg::CameraInfo>(COST_CAMERA_INFO_TOPIC, latching_qos);
+
+    debug_pub_ = left_node_->create_publisher<std_msgs::msg::Header>("debug", rclcpp::QoS(10));
 
     //
     // All image streams off
@@ -1610,6 +1612,10 @@ void Camera::colorImageCallback(const image::Header& header)
                 const auto left_camera_info = stereo_calibration_manager_->leftCameraInfo(frame_id_rectified_left_, t);
 
                 left_rgb_rect_cam_pub_->publish(left_rgb_rect_image_);
+
+                std_msgs::msg::Header msg;
+                msg.stamp = t;
+                debug_pub_->publish(msg);
 
                 left_rgb_rect_cam_info_pub_->publish(left_camera_info);
             }

@@ -38,6 +38,8 @@
 
 #include <rclcpp/rclcpp.hpp>
 
+#include <std_msgs/msg/header.hpp>
+
 #include <sensor_msgs/distortion_models.hpp>
 #include <sensor_msgs/msg/point_cloud2.hpp>
 #include <stereo_msgs/msg/disparity_image.hpp>
@@ -192,6 +194,8 @@ private:
 
     //
     // Data publishers
+
+    rclcpp::Publisher<std_msgs::msg::Header>::SharedPtr  debug_pub_;
 
     rclcpp::Publisher<sensor_msgs::msg::Image>::SharedPtr  left_mono_cam_pub_;
     rclcpp::Publisher<sensor_msgs::msg::Image>::SharedPtr  right_mono_cam_pub_;
