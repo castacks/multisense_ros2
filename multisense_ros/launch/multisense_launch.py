@@ -37,7 +37,8 @@ def generate_launch_description():
                          executable='ros_driver',
                          parameters=[{'sensor_ip': LaunchConfiguration('ip_address'),
                                       'sensor_mtu': LaunchConfiguration('mtu'),
-                                      'tf_prefix': LaunchConfiguration('namespace')}])
+                                      'tf_prefix': LaunchConfiguration('namespace'),
+				                      'gain': 3.5}])
 
     robot_state_publisher = Node(package='robot_state_publisher',
                                  executable='robot_state_publisher',
